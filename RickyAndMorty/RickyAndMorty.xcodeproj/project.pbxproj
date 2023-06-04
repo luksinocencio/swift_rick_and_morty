@@ -30,6 +30,8 @@
 		E86D6E372A2C521C0040B02C /* RMChacterListViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86D6E362A2C521C0040B02C /* RMChacterListViewViewModel.swift */; };
 		E86D6E392A2C526C0040B02C /* RMChacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86D6E382A2C526C0040B02C /* RMChacterListView.swift */; };
 		E86D6E3C2A2C5B010040B02C /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86D6E3B2A2C5B010040B02C /* UIView+Extensions.swift */; };
+		E8D3A9B92A2CEE550004B3A8 /* RMCharacterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D3A9B82A2CEE550004B3A8 /* RMCharacterCollectionViewCell.swift */; };
+		E8D3A9BB2A2CEF780004B3A8 /* RMCharacterCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D3A9BA2A2CEF780004B3A8 /* RMCharacterCollectionViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		E86D6E362A2C521C0040B02C /* RMChacterListViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMChacterListViewViewModel.swift; sourceTree = "<group>"; };
 		E86D6E382A2C526C0040B02C /* RMChacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMChacterListView.swift; sourceTree = "<group>"; };
 		E86D6E3B2A2C5B010040B02C /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		E8D3A9B82A2CEE550004B3A8 /* RMCharacterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterCollectionViewCell.swift; sourceTree = "<group>"; };
+		E8D3A9BA2A2CEF780004B3A8 /* RMCharacterCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterCollectionViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				E86D6E382A2C526C0040B02C /* RMChacterListView.swift */,
+				E8D3A9B82A2CEE550004B3A8 /* RMCharacterCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -132,6 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				E86D6E362A2C521C0040B02C /* RMChacterListViewViewModel.swift */,
+				E8D3A9BA2A2CEF780004B3A8 /* RMCharacterCollectionViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -285,9 +291,11 @@
 				E86D6E352A2C4E3A0040B02C /* RMGetAllCharactersResponnse.swift in Sources */,
 				E86D6E392A2C526C0040B02C /* RMChacterListView.swift in Sources */,
 				E85189DB2A2C189500409984 /* RMEpisode.swift in Sources */,
+				E8D3A9B92A2CEE550004B3A8 /* RMCharacterCollectionViewCell.swift in Sources */,
 				E85189C02A2C149C00409984 /* RMTabBarController.swift in Sources */,
 				E85189BC2A2C149C00409984 /* AppDelegate.swift in Sources */,
 				E86D6E372A2C521C0040B02C /* RMChacterListViewViewModel.swift in Sources */,
+				E8D3A9BB2A2CEF780004B3A8 /* RMCharacterCollectionViewModel.swift in Sources */,
 				E85189BE2A2C149C00409984 /* SceneDelegate.swift in Sources */,
 				E85189D72A2C184E00409984 /* RMLocation.swift in Sources */,
 				E85189E52A2C1AAB00409984 /* RMSettingsViewController.swift in Sources */,
@@ -438,6 +446,7 @@
 				DEVELOPMENT_TEAM = Y65JAZKR5L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RickyAndMorty/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Rick and Morty";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -465,6 +474,7 @@
 				DEVELOPMENT_TEAM = Y65JAZKR5L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RickyAndMorty/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Rick and Morty";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
