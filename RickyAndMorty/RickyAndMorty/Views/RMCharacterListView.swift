@@ -1,9 +1,9 @@
 import UIKit
 
 /// view that handles showing list of characters, loader, etc
-final class RMChacterListView: UIView {
+final class RMCharacterListView: UIView {
     
-    private let viewModel = RMChacterListViewViewModel()
+    private let viewModel = RMCharacterListViewViewModel()
     
     private lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
@@ -32,6 +32,7 @@ final class RMChacterListView: UIView {
         addSubviews(collectionView, spinner)
         addConstraints()
         spinner.startAnimating()
+        viewModel.delegate = self
         viewModel.fetchCharacters()
         setupCollectionView()
     }
@@ -57,15 +58,16 @@ final class RMChacterListView: UIView {
     private func setupCollectionView() {
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-            self.spinner.isHidden = true
-            
-            UIView.animate(withDuration: 0.4, animations: {
-                self.collectionView.isHidden = false
-                self.collectionView.alpha = 1
-                self.collectionView.reloadData()
-            })
-        })
+    }
+}
+
+extension RMCharacterListView: RMCharacterListViewModelDelegate {
+    func didLoadInitialCharacters() {
+        spinner.stopAnimating()
+        collectionView.isHidden = false
+        collectionView.reloadData()
+        UIView.animate(withDuration: 0.4) { [weak self] in
+            self?.collectionView.alpha = 1.0
+        }
     }
 }
