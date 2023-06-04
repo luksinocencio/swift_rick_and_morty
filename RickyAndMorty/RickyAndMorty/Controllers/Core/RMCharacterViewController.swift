@@ -3,7 +3,7 @@ import UIKit
 /// Controller to show and search for Character
 final class RMCharacterViewController: UIViewController {
     
-    private let characterListView = RMChacterListView()
+    private let characterListView = RMCharacterListView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
