@@ -1,0 +1,25 @@
+./RickyAndMorty/RickyAndMorty.xcodeproj/xcuserdata
+./RickyAndMorty/RickyAndMorty.xcodeproj/project.xcworkspace/xcuserdata
+
+## User settings
+
+xcuserdata/
+
+## compatibility with Xcode 8 and earlier (ignoring not required starting Xcode 9)
+
+_.xcscmblueprint
+_.xccheckout
+
+## compatibility with Xcode 3 and earlier (ignoring not required starting Xcode 4)
+
+build/
+DerivedData/
+_.moved-aside
+_.pbxuser
+!default.pbxuser
+_.mode1v3
+!default.mode1v3
+_.mode2v3
+!default.mode2v3
+\*.perspectivev3
+!default.perspectivev3
