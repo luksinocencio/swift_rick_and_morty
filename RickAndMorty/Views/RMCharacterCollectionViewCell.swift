@@ -51,11 +51,6 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         imageView.roundCorners(corners: [.topLeft, .topRight], radius: 16)
     }
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        setupContentView()
-    }
-    
     private func setupContentView() {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubviews(imageView, nameLabel, statusLabel)
