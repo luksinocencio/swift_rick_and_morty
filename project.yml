@@ -1,0 +1,49 @@
+name: RickAndMorty
+
+settings:
+  MARKETING_VERSION: "0.1.0"
+  SWIFT_VERSION: 5.7
+  VERSIONING_SYSTEM: "apple-generic"
+  CLANG_ENABLE_OBJC_WEAK: "YES"
+  ARCHS: $(ARCHS_STANDARD)
+
+options:
+  xcodeVersion: "14.3.1"
+  bundleIdPrefix: com.devmeist3r
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  developmentLanguage: "pt-BR"
+
+targets:
+  RickAndMorty:
+    templates:
+      - iOSApp
+
+schemes:
+  RickAndMorty:
+    build:
+      targets:
+        RickAndMorty: [run, test, archive]
+    archive:
+      config: Release
+    run:
+      config: Debug
+
+targetTemplates:
+  iOSApp:
+    platform: iOS
+    type: application
+    sources:
+      - path: ${target_name}
+    settings:
+      INFOPLIST_FILE: ${target_name}/Info.plist
+
+  iOSAppTests:
+    platform: iOS
+    type: bundle.unit-test
+    sources:
+      - path: ${target_name}
+        createIntermediateGroups: false
+        type: group
+    info:
+      path: ${target_name}/Info.plist
