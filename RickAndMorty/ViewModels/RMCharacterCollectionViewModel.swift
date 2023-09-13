@@ -1,6 +1,6 @@
 import Foundation
 
-final class RMCharacterCollectionViewModel {
+final class RMCharacterCollectionViewModel: Hashable {
     private let characterName: String
     private let characterStatus: RMCharacterStatus
     private let characterImageUrl: URL?
@@ -38,5 +38,15 @@ final class RMCharacterCollectionViewModel {
         }
         
         task.resume()
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(characterName)
+        hasher.combine(characterStatus)
+        hasher.combine(characterImageUrl)
+    }
+    
+    static func == (lhs: RMCharacterCollectionViewModel, rhs: RMCharacterCollectionViewModel) -> Bool {
+        return lhs.hashValue == rhs.hashValue
     }
 }
