@@ -67,6 +67,8 @@ final class RMCharacterDetailView: UIView {
             forCellWithReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifier
         )
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.showsVerticalScrollIndicator = false
+        
         return collectionView
     }
     
