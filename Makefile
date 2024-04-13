@@ -8,3 +8,7 @@ generate:
 	@find . -name '.DS_Store' -type f -delete
 	@xcodegen generate
 	@bash ./Scripts/posGenerate.sh $(open)
+
+# Help make faster pull requests
+pullrequest: ## Create a new PullRequest in Github web following template patterns
+	@bash ./Scripts/pullrequest.sh

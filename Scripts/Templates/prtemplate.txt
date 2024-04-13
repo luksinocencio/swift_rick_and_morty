@@ -1,0 +1,11 @@
+## Descrição
+
+[commit_message]
+
+## Tipo de Mudança
+
+[change_type]
+
+## Outras informações
+
+N/A
