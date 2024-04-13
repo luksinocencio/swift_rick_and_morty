@@ -43,6 +43,7 @@ final class RMCharacterPhotoCollectionViewCell: UICollectionViewCell {
                     self.imageView.image = UIImage(data: data)
                 }
             case .failure(let failure):
+                print(failure.localizedDescription)
                 break
             }
         }
