@@ -7,7 +7,6 @@ protocol RMEpisodeDataRender {
 }
 
 final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
-
     private let episodeDataUrl: URL?
     private var isFetching = false
     private var dataBlock: ((RMEpisodeDataRender) -> Void)?
@@ -19,7 +18,7 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
             guard let model = episode else {
                 return
             }
-            dataBlock?(model as! RMEpisodeDataRender)
+            dataBlock?(model)
         }
     }
 
@@ -39,7 +38,7 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
     public func fetchEpisode() {
         guard !isFetching else {
             if let model = episode {
-                dataBlock?(model as! RMEpisodeDataRender)
+                dataBlock?(model)
             }
             return
         }
