@@ -21,7 +21,7 @@ final class RMAPICacheManager {
     ///   - endpoint: Endpoint to cache for
     ///   - url: Url key
     /// - Returns: Nullable data
-    public func cached(for endpoint: RMEndpoint, url: URL?) -> Data? {
+    public func cachedResponse(for endpoint: RMEndpoint, url: URL?) -> Data? {
         guard let targetCache = cacheDictionary[endpoint], let url = url else {
             return nil
         }
