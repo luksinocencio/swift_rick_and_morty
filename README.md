@@ -4,7 +4,8 @@ Aplicativo construindo seguindo o tutorial do canal [iOS Academy](https://www.yo
 
 ## Tecnologias utilizadas
 - Swift
-- Scripts
+- Shell
+- Makefile
 - Git
 
 ## Imagens
