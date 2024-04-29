@@ -1,7 +1,7 @@
 import UIKit
 
 protocol RMEpisodeListViewDelegate: AnyObject {
-    func rmEpisodeListView(_ characterListView: RMEpisodeListView, didSelecteCharacter episode: RMEpisode)
+    func rmEpisodeListView(_ characterListView: RMEpisodeListView, didSelectEpisode episode: RMEpisode)
 }
 
 /// view that handles showing list of episodes, loader, etc
@@ -27,7 +27,10 @@ final class RMEpisodeListView: UIView {
         collectionView.alpha = 0
         collectionView.showsVerticalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(RMEpisodeCollectionViewCell.self, forCellWithReuseIdentifier: RMEpisodeCollectionViewCell.cellIdentifier)
+        collectionView.register(
+            RMCharacterEpisodeCollectionViewCell.self,
+            forCellWithReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifier
+        )
         collectionView.register(
             RMFooterLoadingCollectionReusableView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
@@ -44,7 +47,7 @@ final class RMEpisodeListView: UIView {
         addConstraints()
         spinner.startAnimating()
         viewModel.delegate = self
-        viewModel.fetchCharacters()
+        viewModel.fetchEpisodes()
         setupCollectionView()
     }
     
@@ -73,7 +76,11 @@ final class RMEpisodeListView: UIView {
 }
 
 extension RMEpisodeListView: RMEpisodeListViewModelDelegate {
-    func didLoadInitialCharacters() {
+    func didSelectEpisode(_ Episode: RMEpisode) {
+        delegate?.rmEpisodeListView(self, didSelectEpisode: Episode)
+    }
+    
+    func didLoadInitialEpisodes() {
         spinner.stopAnimating()
         collectionView.isHidden = false
         collectionView.reloadData()
@@ -82,11 +89,7 @@ extension RMEpisodeListView: RMEpisodeListViewModelDelegate {
         }
     }
     
-    func didSelectCharacter(_ character: RMEpisode) {
-        delegate?.RMEpisodeListView(self, didSelecteCharacter: character)
-    }
-    
-    func didLoadMoreCharacters(with newIndexPaths: [IndexPath]) {
+    func didLoadMoreEpisodes(with newIndexPaths: [IndexPath]) {
         collectionView.performBatchUpdates {
             self.collectionView.insertItems(at: newIndexPaths)
         }

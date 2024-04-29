@@ -29,10 +29,8 @@ final class RMEpisodeViewController: UIViewController {
     }
 }
 
-
-
 extension RMEpisodeViewController: RMEpisodeListViewDelegate {
-    func rmEpisodeListView(_ characterListView: RMEpisodeListView, didSelecteCharacter episode: RMEpisode) {
+    func rmEpisodeListView(_ characterListView: RMEpisodeListView, didSelectEpisode episode: RMEpisode) {
         // open detail controller for that episode
         let detailVC = RMEpisodeDetailViewController(url: URL(string: episode.url))
         detailVC.navigationItem.largeTitleDisplayMode = .never
