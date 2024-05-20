@@ -14,6 +14,7 @@ final class RMEpisodeViewController: UIViewController {
         title = "Espisodes"
         view.backgroundColor = .systemBackground
         setUpView()
+        setupNavigationItemRightButton()
     }
     
     func setUpView() {
@@ -26,6 +27,17 @@ final class RMEpisodeViewController: UIViewController {
             episodeListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             episodeListView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
         ])
+    }
+    
+    private func setupNavigationItemRightButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapShare))
+    }
+    
+    // MARK: - Selector(s).
+    
+    @objc
+    private func didTapShare() {
+        
     }
 }
 
