@@ -2,21 +2,27 @@ import UIKit
 
 /// Controller to show and search for Character
 final class RMCharacterViewController: UIViewController {
+    // MARK: - Private Property(ies).
     
     private let characterListView = RMCharacterListView()
+    
+    // MARK: - Life cycle.
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         setupCharacterListView()
+        setupNavigationItemRightButton()
     }
     
-    func setup() {
+    // MARK: - Private Function(s).
+    
+    private func setup() {
         title = "Characters"
         view.backgroundColor = .systemBackground
     }
     
-    func setupCharacterListView() {
+    private func setupCharacterListView() {
         characterListView.delegate = self
         view.addSubview(characterListView)
         
@@ -27,7 +33,22 @@ final class RMCharacterViewController: UIViewController {
             characterListView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
         ])
     }
+    
+    private func setupNavigationItemRightButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapShare))
+    }
+    
+    // MARK: - Selector(s).
+    
+    @objc
+    private func didTapShare() {
+        let vc = RMSearchViewController(config: RMSearchViewController.RMConfig(type: .character))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
+
+// MARK: - RMCharacterListViewDelegate
 
 extension RMCharacterViewController: RMCharacterListViewDelegate {
     func rmCharacterListView(_ characterListView: RMCharacterListView, didSelecteCharacter character: RMCharacter) {
