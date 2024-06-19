@@ -7,7 +7,7 @@ final class RMEpisodeDetailViewController: UIViewController {
     
     // MARK: - Init
     init(url: URL?) {
-        self.viewModel = .init(endpointUrl: url)
+        self.viewModel = RMEpisodeDetailViewViewModel(endpointUrl: url)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -18,11 +18,15 @@ final class RMEpisodeDetailViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         view.addSubview(detailView)
-        viewModel.delegate = self
         addConstraints()
+        detailView.delegate = self
         title = "Episode"
         setupNavigationItemRightButton()
+        
+        viewModel.delegate = self
+        viewModel.fetchEpisodeData()
     }
     
     // MARK: - Private Function(s).
@@ -48,6 +52,12 @@ final class RMEpisodeDetailViewController: UIViewController {
 }
 
 // MARK: - Delegate
+
+extension RMEpisodeDetailViewController : RMEpisodeDetailViewDelegate {
+    func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didSelect character: RMCharacter) {
+        
+    }
+}
 
 extension RMEpisodeDetailViewController: RMEpisodeDetailViewViewModelDelegate {
     func didFetchEpisodeDetails() {

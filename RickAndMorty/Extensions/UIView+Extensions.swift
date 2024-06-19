@@ -13,3 +13,8 @@ extension UIView {
         clipsToBounds = true
     }
 }
+
+extension UIDevice {
+    /// Check if current device is phone idiom
+    static let isiPhone = UIDevice.current.userInterfaceIdiom == .phone
+}
