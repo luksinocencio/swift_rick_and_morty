@@ -146,9 +146,11 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
         guard let viewModel = viewModel else {
             return
         }
+        
         let sections = viewModel.cellViewModels
         let sectionType = sections[indexPath.section]
 
