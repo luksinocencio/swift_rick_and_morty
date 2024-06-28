@@ -16,7 +16,7 @@ final class RMCharacterListViewViewModel: NSObject {
     private var characters: [RMCharacter] = [] {
         didSet {
             for character in characters {
-                let viewModel = RMCharacterCollectionViewModel(
+                let viewModel = RMCharacterCollectionViewCellViewModel(
                     characterName: character.name,
                     characterStatus: character.status,
                     characterImageUrl: URL(string: character.image)
@@ -28,7 +28,7 @@ final class RMCharacterListViewViewModel: NSObject {
         }
     }
     
-    private var cellViewModels: [RMCharacterCollectionViewModel] = []
+    private var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
     
     private var apiInfo: RMGetAllCharactersResponnse.Info? = nil
     
@@ -114,8 +114,7 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource, UICollection
             return UICollectionViewCell()
         }
         
-        let viewModel = cellViewModels[indexPath.row]
-        cell.configure(with: viewModel)
+        cell.configure(with: cellViewModels[indexPath.row])
         
         return cell
     }

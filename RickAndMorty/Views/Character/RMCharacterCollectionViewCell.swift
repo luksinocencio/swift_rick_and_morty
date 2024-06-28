@@ -81,20 +81,20 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    public func configure(with viewModel: RMCharacterCollectionViewModel) {
-        nameLabel.text = viewModel.characterNameText
+    public func configure(with viewModel: RMCharacterCollectionViewCellViewModel) {
+        nameLabel.text = viewModel.characterName
         statusLabel.text = viewModel.characterStatusText
         
-        viewModel.fetchImage { result in
+        viewModel.fetchImage { [weak self] result in
             switch result {
-                case .success(let data):
-                    DispatchQueue.main.async { [weak self] in
-                        let image = UIImage(data: data)
-                        self?.imageView.image = image
-                    }
-                case .failure(let error):
-                    print(String(describing: error))
-                    break
+            case .success(let data):
+                DispatchQueue.main.async {
+                    let image = UIImage(data: data)
+                    self?.imageView.image = image
+                }
+            case .failure(let error):
+                print(String(describing: error))
+                break
             }
         }
     }
