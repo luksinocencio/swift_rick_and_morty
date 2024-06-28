@@ -34,8 +34,28 @@ final class RMEpisodeDetailViewViewModel {
         }
         return dataTuple.characters[index]
     }
+    
+    // MARK: - Public Function(s).
+    
+    /// Fetch backing episode model
+    public func fetchEpisodeData() {
+        guard let url = endpointUrl,
+              let request = RMRequest(url: url) else {
+            return
+        }
 
-    // MARK: - Private
+        RMService.shared.execute(request,
+                                 expecting: RMEpisode.self) { [weak self] result in
+            switch result {
+            case .success(let model):
+                self?.fetchRelatedCharacters(episode: model)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    // MARK: - Private Function(s).
 
     private func createCellViewModels() {
         guard let dataTuple = dataTuple else {
@@ -65,24 +85,6 @@ final class RMEpisodeDetailViewViewModel {
                 )
             }))
         ]
-    }
-
-    /// Fetch backing episode model
-    public func fetchEpisodeData() {
-        guard let url = endpointUrl,
-              let request = RMRequest(url: url) else {
-            return
-        }
-
-        RMService.shared.execute(request,
-                                 expecting: RMEpisode.self) { [weak self] result in
-            switch result {
-            case .success(let model):
-                self?.fetchRelatedCharacters(episode: model)
-            case .failure:
-                break
-            }
-        }
     }
 
     private func fetchRelatedCharacters(episode: RMEpisode) {

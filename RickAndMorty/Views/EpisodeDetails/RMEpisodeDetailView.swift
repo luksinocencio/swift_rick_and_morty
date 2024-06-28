@@ -139,7 +139,7 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
             ) as? RMCharacterCollectionViewCell else {
                 fatalError()
             }
-//            cell.configure(with: cellViewModel)
+            cell.configure(with: cellViewModel)
             return cell
         }
     }
