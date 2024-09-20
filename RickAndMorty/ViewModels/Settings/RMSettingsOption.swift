@@ -21,6 +21,25 @@ enum RMSettingsOption: CaseIterable {
         }
     }
     
+    var targetURL: URL? {
+        switch self {
+        case .rateApp:
+            return nil
+        case .contactUs:
+            return URL(string: "https://iosacademy.io")
+        case .terms:
+            return URL(string: "https://iosacademy.io/terms")
+        case .privacy:
+            return URL(string: "https://iosacademy.io/privacy")
+        case .apiReference:
+            return URL(string: "https://rickandmortyapi.com")
+        case .viewSeries:
+            return URL(string: "https://www.youtube.com/watch?v=lkP44RQ-gEY&list=PL5PR3UyfTWvdl4Ya_2veOB6TM16FXuv4y")
+        case .viewCode:
+            return URL(string: "https://github.com/luksinocencio/swift_rick_and_morty")
+        }
+    }
+    
     var iconContainerColor: UIColor {
         switch self {
         case .rateApp: return .systemBlue
@@ -36,12 +55,12 @@ enum RMSettingsOption: CaseIterable {
     var iconImage: UIImage? {
         switch self {
         case .rateApp: return UIImage(systemName: "star.fill")
-        case .contactUs: return UIImage(systemName: "paperplane")
-        case .terms: return UIImage(systemName: "doc")
-        case .privacy: return UIImage(systemName: "lock")
-        case .apiReference: return UIImage(systemName: "list.clipboard")
+        case .contactUs: return UIImage(systemName: "paperplane.fill")
+        case .terms: return UIImage(systemName: "doc.fill")
+        case .privacy: return UIImage(systemName: "lock.fill")
+        case .apiReference: return UIImage(systemName: "list.clipboard.fill")
         case .viewSeries: return UIImage(systemName: "tv.fill")
-        case .viewCode: return UIImage(systemName: "hammer")
+        case .viewCode: return UIImage(systemName: "hammer.fill")
         }
     }
 }
