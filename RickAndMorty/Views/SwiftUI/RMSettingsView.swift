@@ -30,7 +30,7 @@ struct RMSettingsView: View {
             .onTapGesture {
                 viewModel.onTapHandler(viewModel.type)
             }
-        }
+        }.padding(.top, 10)
     }
 }
 
