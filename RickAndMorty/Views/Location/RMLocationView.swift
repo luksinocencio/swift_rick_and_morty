@@ -1,8 +1,7 @@
 import UIKit
 
 final class RMLocationView: UIView {
-    
-    private var viewModel: RMLocationViewModel? {
+    private var viewModel: RMLocationViewViewModel? {
         didSet {
             spinner.stopAnimating()
             tableView.isHidden = false
@@ -16,7 +15,7 @@ final class RMLocationView: UIView {
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(RMLocationTableViewCell.self, forCellReuseIdentifier: RMLocationTableViewCell.cellIdentifier)
         table.alpha = 0.0
         table.isHidden = true
         return table
@@ -33,10 +32,11 @@ final class RMLocationView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        backgroundColor = .systemBackground
+        translatesAutoresizingMaskIntoConstraints = false
         setupConstraints()
-        
         spinner.startAnimating()
+        configureTable()
     }
     
     required init?(coder: NSCoder) {
@@ -45,9 +45,9 @@ final class RMLocationView: UIView {
     
     // MARK: Private Function(s).
     
-    private func setupView() {
-        backgroundColor = .red
-        translatesAutoresizingMaskIntoConstraints = false
+    private func configureTable() {
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     private func setupConstraints() {
@@ -67,7 +67,39 @@ final class RMLocationView: UIView {
     }
     
     // MARK: Public Function(s).
-    public func configure(with viewModel: RMLocationViewModel) {
+    public func configure(with viewModel: RMLocationViewViewModel) {
         self.viewModel = viewModel
+    }
+}
+
+
+extension RMLocationView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        // Notify controller of selection
+    }
+}
+
+extension RMLocationView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.cellViewModels.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cellViewModels = viewModel?.cellViewModels else {
+            fatalError()
+        }
+        
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: RMLocationTableViewCell.cellIdentifier,
+            for: indexPath
+        ) as?  RMLocationTableViewCell else {
+            fatalError("RMLocationTableViewCell Error")
+        }
+        
+        let cellViewModel = cellViewModels[indexPath.row]
+        cell.textLabel?.text = cellViewModel.name
+        
+        return cell
     }
 }
