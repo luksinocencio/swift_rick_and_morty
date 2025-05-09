@@ -32,6 +32,14 @@ final class RMLocationViewViewModel {
     
     init() { }
     
+    public func location(at index: Int) -> RMLocation? {
+        guard index >= locations.count else {
+            return nil
+        }
+        
+        return self.locations[index]
+    }
+    
     // MARK: - Public Function(s).
     
     public func fetchLocations() {
