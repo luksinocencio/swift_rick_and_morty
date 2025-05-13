@@ -30,14 +30,14 @@ final class RMEpisodeViewController: UIViewController {
     }
     
     private func setupNavigationItemRightButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapShare))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
     }
     
     // MARK: - Selector(s).
-    
-    @objc
-    private func didTapShare() {
-        
+    @objc private func didTapSearch() {
+        let vc = RMSearchViewController(config: .init(type: .episode))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

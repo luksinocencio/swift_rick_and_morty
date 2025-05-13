@@ -3,18 +3,17 @@ import UIKit
 /// Controller to show and search for Location
 final class RMLocationViewController: UIViewController {
     private let primaryView = RMLocationView()
+    
     private let viewModel = RMLocationViewViewModel()
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         primaryView.delegate = self
-        setupView()
-    }
-    
-    private func setupView() {
-        title = "Locations"
+        view.addSubview(primaryView)
         view.backgroundColor = .systemBackground
-        
+        title = "Locations"
         addSearchButton()
         addConstraints()
         viewModel.delegate = self
@@ -22,30 +21,24 @@ final class RMLocationViewController: UIViewController {
     }
     
     private func addSearchButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .search,
-            target: self,
-            action: #selector(didTapShare)
-        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
     }
     
     private func addConstraints() {
-        [primaryView].forEach(view.addSubview)
-        
         NSLayoutConstraint.activate([
             primaryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            primaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            primaryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            primaryView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            primaryView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             primaryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     
-    // MARK: - Selector(s).
-    
-    @objc
-    private func didTapShare() {
-        print("click header button")
+    @objc private func didTapSearch() {
+        let vc = RMSearchViewController(config: .init(type: .location))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
+    
 }
 
 // MARK: - RMLocationViewDelegate
