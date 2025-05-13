@@ -7,7 +7,7 @@ final class RMLocationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        primaryView.delegate = self
         setupView()
     }
     
@@ -46,12 +46,24 @@ final class RMLocationViewController: UIViewController {
     private func didTapShare() {
         print("click header button")
     }
-    
-    
 }
+
+// MARK: - RMLocationViewDelegate
 
 extension RMLocationViewController: RMLocationViewViewModelDelegate {
     func didFetchInitialLocations() {
         primaryView.configure(with: viewModel)
+    }
+}
+
+
+// MARK: - RMLocationViewViewDelegate
+
+extension RMLocationViewController: RMLocationViewViewDelegate {
+    func rmLocationView(_ locationVoew: RMLocationView, didSelect location: RMLocation) {
+        let vc = RMLocationDetailViewController(location: location)
+        
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
