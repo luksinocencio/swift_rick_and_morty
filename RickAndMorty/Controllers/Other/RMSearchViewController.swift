@@ -30,13 +30,15 @@ class RMSearchViewController: UIViewController {
     }
     
     // MARK: - Private Property(ies).
-    private let config: RMConfig
-    
+    private let viewModel: RMSearchViewViewModel
+    private let searchView: RMSearchView
     
     // MARK: - init(s).
     
     init(config: RMConfig) {
-        self.config = config
+        let viewModel = RMSearchViewViewModel(config: config)
+        self.viewModel = viewModel
+        self.searchView = RMSearchView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,11 +46,33 @@ class RMSearchViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Life cycle.
+    // MARK: - Lifecycle.
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = config.type.title
+        title = viewModel.config.type.title
         view.backgroundColor = .systemBackground
+        
+        [searchView].forEach(self.view.addSubview)
+        addConstraints()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search",
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(didTapExecuteSearch))
+    }
+    
+    @objc private func didTapExecuteSearch() {
+        print("click")
+        // viewModel.executeSearch()
+    }
+    
+    // MARK: - Private function(s).
+    private func addConstraints() {
+        NSLayoutConstraint.activate([
+            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            searchView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }
