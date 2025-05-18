@@ -1,10 +1,5 @@
 import Foundation
 
-// Responsibilities
-// - show search results
-// - show no results view
-// - kick off API requests
-
 final class RMSearchViewViewModel {
     let config: RMSearchViewController.Config
     private var optionMap: [RMSearchInputViewViewModel.DynamicOption: String] = [:]
@@ -13,6 +8,10 @@ final class RMSearchViewViewModel {
     private var optionMapUpdateBlock: (((RMSearchInputViewViewModel.DynamicOption, String)) -> Void)?
 
     private var searchResultHandler: ((RMSearchResultViewModel) -> Void)?
+
+    private var noResultsHandler: (() -> Void)?
+
+    private var searchResultModel: Codable?
 
     // MARK: - Init
 
@@ -26,7 +25,15 @@ final class RMSearchViewViewModel {
         self.searchResultHandler = block
     }
 
+    public func registerNoResultsHandler(_ block: @escaping () -> Void) {
+        self.noResultsHandler = block
+    }
+
     public func executeSearch() {
+        guard !searchText.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+
         // Build arguments
         var queryParams: [URLQueryItem] = [
             URLQueryItem(name: "name", value: searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed))
@@ -62,14 +69,15 @@ final class RMSearchViewViewModel {
             case .success(let model):
                 self?.processSearchResults(model: model)
             case .failure:
-                print("Failed to get results")
+                self?.handleNoResults()
                 break
             }
         }
     }
 
     private func processSearchResults(model: Codable) {
-        var resultsVM: RMSearchResultViewModel?
+        var resultsVM: RMSearchResultType?
+        var nextUrl: String?
         if let characterResults = model as? RMGetAllCharactersResponse {
             resultsVM = .characters(characterResults.results.compactMap({
                 return RMCharacterCollectionViewCellViewModel(
@@ -78,6 +86,7 @@ final class RMSearchViewViewModel {
                     characterImageUrl: URL(string: $0.image)
                 )
             }))
+            nextUrl = characterResults.info.next
         }
         else if let episodesResults = model as? RMGetAllEpisodesResponse {
             resultsVM = .episodes(episodesResults.results.compactMap({
@@ -85,18 +94,27 @@ final class RMSearchViewViewModel {
                     episodeDataUrl: URL(string: $0.url)
                 )
             }))
+            nextUrl = episodesResults.info.next
         }
         else if let locationsResults = model as? RMGetAllLocationsResponse {
             resultsVM = .locations(locationsResults.results.compactMap({
                 return RMLocationTableViewCellViewModel(location: $0)
             }))
+            nextUrl = locationsResults.info.next
         }
 
         if let results = resultsVM {
-            self.searchResultHandler?(results)
+            self.searchResultModel = model
+            let vm = RMSearchResultViewModel(results: results, next: nextUrl)
+            self.searchResultHandler?(vm)
         } else {
             // fallback error
+            handleNoResults()
         }
+    }
+
+    private func handleNoResults() {
+        noResultsHandler?()
     }
 
     public func set(query text: String) {
@@ -113,5 +131,26 @@ final class RMSearchViewViewModel {
         _ block: @escaping ((RMSearchInputViewViewModel.DynamicOption, String)) -> Void
     ) {
         self.optionMapUpdateBlock = block
+    }
+
+    public func locationSearchResult(at index: Int) -> RMLocation? {
+        guard let searchModel = searchResultModel as? RMGetAllLocationsResponse else {
+            return nil
+        }
+        return searchModel.results[index]
+    }
+
+    public func characterSearchResult(at index: Int) -> RMCharacter? {
+        guard let searchModel = searchResultModel as? RMGetAllCharactersResponse else {
+            return nil
+        }
+        return searchModel.results[index]
+    }
+
+    public func episodeSearchResult(at index: Int) -> RMEpisode? {
+        guard let searchModel = searchResultModel as? RMGetAllEpisodesResponse else {
+            return nil
+        }
+        return searchModel.results[index]
     }
 }

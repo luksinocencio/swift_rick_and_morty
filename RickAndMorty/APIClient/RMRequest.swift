@@ -119,6 +119,8 @@ final class RMRequest {
     }
 }
 
+// MARK: - Request convenience
+
 extension RMRequest {
     static let listCharactersRequests = RMRequest(endpoint: .character)
     static let listEpisodesRequest = RMRequest(endpoint: .episode)

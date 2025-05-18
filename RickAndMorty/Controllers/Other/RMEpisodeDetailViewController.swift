@@ -21,6 +21,7 @@ final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailView
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         view.addSubview(detailView)
         addConstraints()
         detailView.delegate = self

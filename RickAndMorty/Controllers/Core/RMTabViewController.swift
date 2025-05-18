@@ -1,7 +1,7 @@
 import UIKit
 
 /// Controller to house tabs and root tab controllers
-final class RMTabBarController: UITabBarController {
+final class RMTabViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,4 +47,3 @@ final class RMTabBarController: UITabBarController {
         )
     }
 }
-

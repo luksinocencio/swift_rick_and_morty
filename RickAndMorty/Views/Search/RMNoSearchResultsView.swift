@@ -2,6 +2,7 @@ import UIKit
 
 final class RMNoSearchResultsView: UIView {
     private let viewModel = RMNoSearchResultsViewViewModel()
+
     private let iconView: UIImageView = {
         let iconView = UIImageView()
         iconView.contentMode = .scaleAspectFit

@@ -22,6 +22,7 @@ final class RMLocationDetailViewController: UIViewController, RMLocationDetailVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         view.addSubview(detailView)
         addConstraints()
         detailView.delegate = self
