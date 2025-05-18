@@ -1,49 +1,43 @@
 import UIKit
 
-/// Controller to show and search for Episode
-final class RMEpisodeViewController: UIViewController {
+/// Controller to show and search for Episodes
+final class RMEpisodeViewController: UIViewController, RMEpisodeListViewDelegate {
+
     private let episodeListView = RMEpisodeListView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
-        setUpView()
-    }
-    
-    func setup() {
-        title = "Espisodes"
         view.backgroundColor = .systemBackground
+        title = "Episodes"
         setUpView()
-        setupNavigationItemRightButton()
+        addSearchButton()
     }
-    
-    func setUpView() {
-        episodeListView.delegate = self
-        view.addSubview(episodeListView)
-        
-        NSLayoutConstraint.activate([
-            episodeListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            episodeListView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            episodeListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            episodeListView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-        ])
-    }
-    
-    private func setupNavigationItemRightButton() {
+
+    private func addSearchButton() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
     }
-    
-    // MARK: - Selector(s).
+
     @objc private func didTapSearch() {
         let vc = RMSearchViewController(config: .init(type: .episode))
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
-}
 
-extension RMEpisodeViewController: RMEpisodeListViewDelegate {
+    private func setUpView() {
+        episodeListView.delegate = self
+        view.addSubview(episodeListView)
+        NSLayoutConstraint.activate([
+            episodeListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            episodeListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            episodeListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            episodeListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+
+    // MARK: - RMEpisodeListViewDelegate
+
     func rmEpisodeListView(_ characterListView: RMEpisodeListView, didSelectEpisode episode: RMEpisode) {
-        // open detail controller for that episode
+        // Open detail controller for that episode
         let detailVC = RMEpisodeDetailViewController(url: URL(string: episode.url))
         detailVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(detailVC, animated: true)

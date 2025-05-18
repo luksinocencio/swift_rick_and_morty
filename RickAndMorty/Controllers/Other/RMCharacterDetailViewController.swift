@@ -3,22 +3,23 @@ import UIKit
 /// Controller to show info about single character
 final class RMCharacterDetailViewController: UIViewController {
     private let viewModel: RMCharacterDetailViewViewModel
+
     private let detailView: RMCharacterDetailView
-    
+
     // MARK: - Init
-    
+
     init(viewModel: RMCharacterDetailViewViewModel) {
         self.viewModel = viewModel
         self.detailView = RMCharacterDetailView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("Unsupported")
     }
-    
+
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -30,30 +31,33 @@ final class RMCharacterDetailViewController: UIViewController {
             action: #selector(didTapShare)
         )
         addConstraints()
+
         detailView.collectionView?.delegate = self
         detailView.collectionView?.dataSource = self
     }
-    
+
+    @objc
+    private func didTapShare() {
+        // Share character info
+    }
+
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            detailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             detailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            detailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            detailView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            detailView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
-    // MARK: - Selectors
-    @objc func didTapShare() {
-        
-    }
 }
+
+// MARK: - CollectionView
 
 extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewModel.sections.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sectionType = viewModel.sections[section]
         switch sectionType {
@@ -65,14 +69,13 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
             return viewModels.count
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionType = viewModel.sections[indexPath.section]
-        
         switch sectionType {
         case .photo(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: RMCharacterPhotoCollectionViewCell.cellIdentifier,
+                withReuseIdentifier: RMCharacterPhotoCollectionViewCell.cellIdentifer,
                 for: indexPath
             ) as? RMCharacterPhotoCollectionViewCell else {
                 fatalError()
@@ -81,7 +84,7 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
             return cell
         case .information(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: RMCharacterInfoCollectionViewCell.cellIdentifier,
+                withReuseIdentifier: RMCharacterInfoCollectionViewCell.cellIdentifer,
                 for: indexPath
             ) as? RMCharacterInfoCollectionViewCell else {
                 fatalError()
@@ -90,7 +93,7 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
             return cell
         case .episodes(let viewModels):
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifier,
+                withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifer,
                 for: indexPath
             ) as? RMCharacterEpisodeCollectionViewCell else {
                 fatalError()
@@ -100,10 +103,9 @@ extension RMCharacterDetailViewController: UICollectionViewDelegate, UICollectio
             return cell
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let sectionType = viewModel.sections[indexPath.section]
-        
         switch sectionType {
         case .photo, .information:
             break

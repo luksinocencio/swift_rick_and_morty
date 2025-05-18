@@ -146,11 +146,9 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
         guard let viewModel = viewModel else {
             return
         }
-        
         let sections = viewModel.cellViewModels
         let sectionType = sections[indexPath.section]
 
@@ -203,7 +201,7 @@ extension RMEpisodeDetailView {
     func createCharacterLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(UIDevice.isiPhone ? 0.5 : 0.25),
+                widthDimension: .fractionalWidth(0.5),
                 heightDimension: .fractionalHeight(1.0)
             )
         )
@@ -217,9 +215,9 @@ extension RMEpisodeDetailView {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize:  NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(UIDevice.isiPhone ? 260 : 320)
+                heightDimension: .absolute(260)
             ),
-            subitems: UIDevice.isiPhone ? [item, item] : [item, item, item, item]
+            subitems: [item, item]
         )
         let section = NSCollectionLayoutSection(group: group)
         return section

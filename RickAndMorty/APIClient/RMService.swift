@@ -2,22 +2,23 @@ import Foundation
 
 /// Primary API service object to get Rick and Morty data
 final class RMService {
-    /// Share singleton instance
+    /// Shared singleton instance
     static let shared = RMService()
+    
     private let cacheManager = RMAPICacheManager()
     
-    /// Privatized construtor
-    private init() { }
+    /// Privatized constructor
+    private init() {}
     
     enum RMServiceError: Error {
         case failedToCreateRequest
         case failedToGetData
     }
     
-    /// Send Ricky and Morty API Call
+    /// Send Rick and Morty API Call
     /// - Parameters:
-    ///   - request: Request Instance
-    ///   - type: The type of object we expected to get back
+    ///   - request: Request instance
+    ///   - type: The type of object we expect to get back
     ///   - completion: Callback with data or error
     public func execute<T: Codable>(
         _ request: RMRequest,
@@ -28,11 +29,11 @@ final class RMService {
             for: request.endpoint,
             url: request.url
         ) {
-//            print("Using cached API Response")
             do {
-                let results = try JSONDecoder().decode(type.self, from: cachedData)
-                completion(.success(results))
-            } catch {
+                let result = try JSONDecoder().decode(type.self, from: cachedData)
+                completion(.success(result))
+            }
+            catch {
                 completion(.failure(error))
             }
             return
@@ -43,33 +44,35 @@ final class RMService {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: urlRequest, completionHandler: { [weak self] data, _, error in
+        let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, _, error in
             guard let data = data, error == nil else {
                 completion(.failure(error ?? RMServiceError.failedToGetData))
                 return
             }
             
             // Decode response
-            
             do {
-                let results = try JSONDecoder().decode(type.self, from: data)
+                let result = try JSONDecoder().decode(type.self, from: data)
                 self?.cacheManager.setCache(
                     for: request.endpoint,
                     url: request.url,
                     data: data
                 )
-                completion(.success(results))
-            } catch {
+                completion(.success(result))
+            }
+            catch {
                 completion(.failure(error))
             }
-        })
-        
+        }
         task.resume()
     }
     
     // MARK: - Private
+    
     private func request(from rmRequest: RMRequest) -> URLRequest? {
-        guard let url = rmRequest.url else { return nil }
+        guard let url = rmRequest.url else {
+            return nil
+        }
         var request = URLRequest(url: url)
         request.httpMethod = rmRequest.httpMethod
         return request

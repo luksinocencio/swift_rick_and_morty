@@ -1,5 +1,6 @@
 import Foundation
 
+
 protocol RMLocationDetailViewViewModelDelegate: AnyObject {
     func didFetchLocationDetails()
 }
@@ -34,28 +35,8 @@ final class RMLocationDetailViewViewModel {
         }
         return dataTuple.characters[index]
     }
-    
-    // MARK: - Public Function(s).
-    
-    /// Fetch backing episode model
-    public func fetchLocationData() {
-        guard let url = endpointUrl,
-              let request = RMRequest(url: url) else {
-            return
-        }
 
-        RMService.shared.execute(request,
-                                 expecting: RMLocation.self) { [weak self] result in
-            switch result {
-            case .success(let model):
-                self?.fetchRelatedCharacters(location: model)
-            case .failure:
-                break
-            }
-        }
-    }
-
-    // MARK: - Private Function(s).
+    // MARK: - Private
 
     private func createCellViewModels() {
         guard let dataTuple = dataTuple else {
@@ -87,14 +68,30 @@ final class RMLocationDetailViewViewModel {
         ]
     }
 
+    /// Fetch backing location model
+    public func fetchLocationData() {
+        guard let url = endpointUrl,
+              let request = RMRequest(url: url) else {
+            return
+        }
+
+        RMService.shared.execute(request,
+                                 expecting: RMLocation.self) { [weak self] result in
+            switch result {
+            case .success(let model):
+                self?.fetchRelatedCharacters(location: model)
+            case .failure:
+                break
+            }
+        }
+    }
+
     private func fetchRelatedCharacters(location: RMLocation) {
         let requests: [RMRequest] = location.residents.compactMap({
             return URL(string: $0)
         }).compactMap({
             return RMRequest(url: $0)
         })
-
-        
 
         let group = DispatchGroup()
         var characters: [RMCharacter] = []
@@ -122,4 +119,3 @@ final class RMLocationDetailViewViewModel {
         }
     }
 }
-

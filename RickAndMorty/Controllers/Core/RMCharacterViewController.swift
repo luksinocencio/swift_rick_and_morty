@@ -1,57 +1,42 @@
 import UIKit
 
-/// Controller to show and search for Character
-final class RMCharacterViewController: UIViewController {
-    // MARK: - Private Property(ies).
-    
+/// Controller to show and search for Characters
+final class RMCharacterViewController: UIViewController, RMCharacterListViewDelegate {
+
     private let characterListView = RMCharacterListView()
-    
-    // MARK: - Life cycle.
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
-        setupCharacterListView()
-        setupNavigationItemRightButton()
-    }
-    
-    // MARK: - Private Function(s).
-    
-    private func setup() {
-        title = "Characters"
         view.backgroundColor = .systemBackground
+        title = "Characters"
+        setUpView()
+        addSearchButton()
     }
-    
-    private func setupCharacterListView() {
-        characterListView.delegate = self
-        view.addSubview(characterListView)
-        
-        NSLayoutConstraint.activate([
-            characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            characterListView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            characterListView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-        ])
+
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
     }
-    
-    private func setupNavigationItemRightButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapShare))
-    }
-    
-    // MARK: - Selector(s).
-    
-    @objc
-    private func didTapShare() {
-        let vc = RMSearchViewController(config: RMSearchViewController.RMConfig(type: .character))
+
+    @objc private func didTapSearch() {
+        let vc = RMSearchViewController(config: RMSearchViewController.Config(type: .character))
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
-}
 
-// MARK: - RMCharacterListViewDelegate
+    private func setUpView() {
+        characterListView.delegate = self
+        view.addSubview(characterListView)
+        NSLayoutConstraint.activate([
+            characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
 
-extension RMCharacterViewController: RMCharacterListViewDelegate {
-    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelecteCharacter character: RMCharacter) {
+    // MARK: - RMCharacterListViewDelegate
+
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter) {
         // Open detail controller for that character
         let viewModel = RMCharacterDetailViewViewModel(character: character)
         let detailVC = RMCharacterDetailViewController(viewModel: viewModel)

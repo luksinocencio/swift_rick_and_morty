@@ -7,13 +7,13 @@ protocol RMEpisodeDataRender {
 }
 
 final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
-    // MARK: - Public Property(ies).
-    public let borderColor: UIColor
-    
-    // MARK: - Private Property(ies).
+
     private let episodeDataUrl: URL?
     private var isFetching = false
     private var dataBlock: ((RMEpisodeDataRender) -> Void)?
+
+    public let borderColor: UIColor
+
     private var episode: RMEpisode? {
         didSet {
             guard let model = episode else {
@@ -70,4 +70,5 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
     static func == (lhs: RMCharacterEpisodeCollectionViewCellViewModel, rhs: RMCharacterEpisodeCollectionViewCellViewModel) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
+
 }
